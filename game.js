@@ -41,6 +41,7 @@ class Game {
         width: '33%',
         height: '33%',
         align: 'center',
+        valign: 'middle',
         tags: true,
         focus: {
           bg: 'red',
@@ -55,6 +56,7 @@ class Game {
         height: '33%',
         left: 'center',
         align: 'center',
+        valign: 'middle',
         tags: true,
         focus: {
           bg: 'red',
@@ -69,6 +71,7 @@ class Game {
         height: '33%',
         left: 'center',
         align: 'center',
+        valign: 'middle',
         tags: true,
         focus: {
           bg: 'red',
@@ -90,7 +93,7 @@ class Game {
 
   drawX(cellNumber) {
     this.cells[cellNumber].content =
-      '{bold}\n' +
+      '{bold}' +
       '█   █\n' +
       ' █ █ \n' +
       '  █  \n' +
@@ -102,7 +105,7 @@ class Game {
 
   drawO(cellNumber) {
     this.cells[cellNumber].content =
-      '{bold}\n' +
+      '{bold}' +
       ' ███ \n' +
       '█   █\n' +
       '█   █\n' +
