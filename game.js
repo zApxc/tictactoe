@@ -1,111 +1,116 @@
 const blessed = require('blessed')
 
-function drawX(box, screen) {
-  box.content =
-    '{bold}\n' +
-    '\t  █   █\n' +
-    '\t   █ █\n' +
-    '\t    █\n' +
-    '\t   █ █\n' +
-    '\t  █   █' +
-    '{/bold}'
-}
-
-function drawO(box, screen) {
-  box.content =
-    '{bold}\n' +
-    '\t  ███\n' +
-    '\t █   █\n' +
-    '\t █   █\n' +
-    '\t █   █\n' +
-    '\t  ███' +
-    '{/bold}'
-}
-
-const createGame = () => {
-  const bg = 'none'
-  const fg = 'white'
-
-  let game = blessed.box({
-    top: 'center',
-    left: 'center',
-    width: '300',
-    height: '500',
-    tags: true,
-    style: {
-      fg: 'white',
-      border: {
-        fg: 'green',
-      },
-      hover: {
-        bg: 'red',
-      },
-    },
-  })
-
-  const lines = [
-    blessed.line({
-      orientation: 'vertical',
-      left: '33%',
-    }),
-    blessed.line({
-      orientation: 'vertical',
-      left: '66%',
-    }),
-    blessed.line({
-      orientation: 'horizontal',
-      top: '33%',
-    }),
-    blessed.line({
-      orientation: 'horizontal',
-      top: '66%',
-    }),
-  ]
-
-  const cells = [
-    blessed.box({
-      width: '33%',
-      height: '33%',
-      content: '',
-      fg: fg,
-      bg: bg,
-      tags: true,
-      focus: {
-        bg: 'red',
-      },
-      hover: {
-        bg: 'red',
-      },
-    }),
-    blessed.box({
-      width: '33%',
-      height: '33%',
+class Game {
+  constructor(screen) {
+    this.screen = screen
+    this.game = blessed.box({
+      top: 'center',
       left: 'center',
-      fg: fg,
-      bg: bg,
+      width: '300',
+      height: '500',
       tags: true,
-      focus: {
-        bg: 'red',
+      style: {
+        fg: 'white',
+        border: {
+          fg: 'white',
+        },
       },
-      hover: {
-        bg: 'red',
-      },
-    }),
-  ]
+    })
 
-  cells.forEach((cell) => {
-    game.append(cell)
-  })
+    const lines = [
+      blessed.line({
+        orientation: 'vertical',
+        left: '33%',
+      }),
+      blessed.line({
+        orientation: 'vertical',
+        left: '66%',
+      }),
+      blessed.line({
+        orientation: 'horizontal',
+        top: '33%',
+      }),
+      blessed.line({
+        orientation: 'horizontal',
+        top: '66%',
+      }),
+    ]
 
-  lines.forEach((line) => {
-    game.append(line)
-  })
+    this.cells = {
+      1: blessed.box({
+        width: '33%',
+        height: '33%',
+        align: 'center',
+        tags: true,
+        focus: {
+          bg: 'red',
+        },
+        hover: {
+          bg: 'red',
+        },
+      }),
 
-  // implement focus events for all the cells
+      2: blessed.box({
+        width: '33%',
+        height: '33%',
+        left: 'center',
+        align: 'center',
+        tags: true,
+        focus: {
+          bg: 'red',
+        },
+        hover: {
+          bg: 'red',
+        },
+      }),
 
-  return [game, cells]
+      3: blessed.box({
+        width: '33%',
+        height: '33%',
+        left: 'center',
+        align: 'center',
+        tags: true,
+        focus: {
+          bg: 'red',
+        },
+        hover: {
+          bg: 'red',
+        },
+      }),
+    }
+
+    for (const key in this.cells) {
+      this.game.append(this.cells[key])
+    }
+
+    lines.forEach((line) => {
+      this.game.append(line)
+    })
+  }
+
+  drawX(cellNumber) {
+    this.cells[cellNumber].content =
+      '{bold}\n' +
+      '█   █\n' +
+      ' █ █ \n' +
+      '  █  \n' +
+      ' █ █ \n' +
+      '█   █' +
+      '{/bold}'
+    this.screen.render()
+  }
+
+  drawO(cellNumber) {
+    this.cells[cellNumber].content =
+      '{bold}\n' +
+      ' ███ \n' +
+      '█   █\n' +
+      '█   █\n' +
+      '█   █\n' +
+      ' ███ ' +
+      '{/bold}'
+    this.screen.render()
+  }
 }
 
-exports.createGame = createGame
-exports.drawX = drawX
-exports.drawO = drawO
+exports.Game = Game

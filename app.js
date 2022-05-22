@@ -1,5 +1,5 @@
 const blessed = require('blessed')
-const { createGame, drawX, drawO } = require('./game')
+const { Game } = require('./game')
 
 let screen = blessed.screen({
   smartCSR: true,
@@ -38,16 +38,15 @@ commands.setContent(
     '{/center}'
 )
 
-const [game, gameCells] = createGame()
+let game = new Game(screen)
 
-drawX(gameCells[0], screen)
-drawO(gameCells[1], screen)
-
-screen.append(game)
+screen.append(game.game)
 screen.append(commands)
 
-game.focus()
+game.game.focus()
 
 screen.render()
 
-// implement Game as singleton, and drawX, drawO as Game methods
+game.drawX(1)
+game.drawO(2)
+game.drawO(3)
