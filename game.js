@@ -3,11 +3,11 @@ const blessed = require('blessed')
 class Game {
   constructor(screen) {
     this.screen = screen
-    this.game = blessed.box({
+    this.grid = blessed.box({
       top: 'center',
       left: 'center',
       width: '300',
-      height: '500',
+      height: '570',
       tags: true,
       style: {
         fg: 'white',
@@ -36,59 +36,63 @@ class Game {
       }),
     ]
 
+    const genericCell = {
+      width: '33%',
+      height: '33%',
+      align: 'center',
+      valign: 'middle',
+      tags: true,
+    }
+
     this.cells = {
-      1: blessed.box({
-        width: '33%',
-        height: '33%',
-        align: 'center',
-        valign: 'middle',
-        tags: true,
-        focus: {
-          bg: 'red',
-        },
-        hover: {
-          bg: 'red',
-        },
-      }),
-
+      1: blessed.box({ ...genericCell }),
       2: blessed.box({
-        width: '33%',
-        height: '33%',
+        ...genericCell,
         left: 'center',
-        align: 'center',
-        valign: 'middle',
-        tags: true,
-        focus: {
-          bg: 'red',
-        },
-        hover: {
-          bg: 'red',
-        },
       }),
-
       3: blessed.box({
-        width: '33%',
-        height: '33%',
+        ...genericCell,
+        left: '66%',
+      }),
+      4: blessed.box({
+        ...genericCell,
+        top: 'center',
+      }),
+      5: blessed.box({
+        ...genericCell,
         left: 'center',
-        align: 'center',
-        valign: 'middle',
-        tags: true,
-        focus: {
-          bg: 'red',
-        },
-        hover: {
-          bg: 'red',
-        },
+        top: 'center',
+      }),
+      6: blessed.box({
+        ...genericCell,
+        left: '66%',
+        top: 'center',
+      }),
+      7: blessed.box({
+        ...genericCell,
+        top: '66%',
+      }),
+      8: blessed.box({
+        ...genericCell,
+        left: 'center',
+        top: '66%',
+      }),
+      9: blessed.box({
+        ...genericCell,
+        left: '66%',
+        top: '66%',
       }),
     }
 
     for (const key in this.cells) {
-      this.game.append(this.cells[key])
+      this.grid.append(this.cells[key])
     }
 
     lines.forEach((line) => {
-      this.game.append(line)
+      this.grid.append(line)
     })
+
+    screen.render()
   }
 
   drawX(cellNumber) {
