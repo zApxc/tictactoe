@@ -44,59 +44,96 @@ class Game {
       tags: true,
     }
 
-    this.cells = {
-      1: blessed.box({ ...genericCell }),
-      2: blessed.box({
-        ...genericCell,
-        left: 'center',
-      }),
-      3: blessed.box({
-        ...genericCell,
-        left: '66%',
-      }),
-      4: blessed.box({
-        ...genericCell,
-        top: 'center',
-      }),
-      5: blessed.box({
-        ...genericCell,
-        left: 'center',
-        top: 'center',
-      }),
-      6: blessed.box({
-        ...genericCell,
-        left: '66%',
-        top: 'center',
-      }),
-      7: blessed.box({
-        ...genericCell,
-        top: '66%',
-      }),
-      8: blessed.box({
-        ...genericCell,
-        left: 'center',
-        top: '66%',
-      }),
-      9: blessed.box({
-        ...genericCell,
-        left: '66%',
-        top: '66%',
-      }),
-    }
+    this.cells = [
+      [
+        blessed.box({ ...genericCell }),
+        blessed.box({
+          ...genericCell,
+          left: 'center',
+        }),
+        blessed.box({
+          ...genericCell,
+          left: '66%',
+        }),
+      ],
+      [
+        blessed.box({
+          ...genericCell,
+          top: 'center',
+        }),
+        blessed.box({
+          ...genericCell,
+          left: 'center',
+          top: 'center',
+        }),
+        blessed.box({
+          ...genericCell,
+          left: '66%',
+          top: 'center',
+        }),
+      ],
+      [
+        blessed.box({
+          ...genericCell,
+          top: '66%',
+        }),
+        blessed.box({
+          ...genericCell,
+          left: 'center',
+          top: '66%',
+        }),
+        blessed.box({
+          ...genericCell,
+          left: '66%',
+          top: '66%',
+        }),
+      ],
+    ]
 
-    for (const key in this.cells) {
-      this.grid.append(this.cells[key])
-    }
+    this.cells.forEach((row) => {
+      row.forEach((cell) => {
+        this.grid.append(cell)
+      })
+    })
 
     lines.forEach((line) => {
       this.grid.append(line)
     })
 
+    this.setCurrentCell(1, 1)
+
     screen.render()
   }
 
-  drawX(cellNumber) {
-    this.cells[cellNumber].content =
+  setCurrentCell(row, col) {
+    if (this.currCell) {
+      this.currCell.style.bg = ''
+    }
+    this.currRow = row
+    this.currCol = col
+    this.currCell = this.cells[row][col]
+    this.currCell.style.bg = 'cyan'
+    this.screen.render()
+  }
+
+  moveUp() {
+    this.setCurrentCell(this.currRow - 1, this.currCol)
+  }
+
+  moveDown() {
+    this.setCurrentCell(this.currRow + 1, this.currCol)
+  }
+
+  moveLeft() {
+    this.setCurrentCell(this.currRow, this.currCol - 1)
+  }
+
+  moveRight() {
+    this.setCurrentCell(this.currRow, this.currCol + 1)
+  }
+
+  drawX(row = this.currRow, col = this.currCol) {
+    this.cells[row][col].content =
       '{bold}' +
       '█   █\n' +
       ' █ █ \n' +
@@ -107,8 +144,8 @@ class Game {
     this.screen.render()
   }
 
-  drawO(cellNumber) {
-    this.cells[cellNumber].content =
+  drawO(row = this.currRow, col = this.currCol) {
+    this.cells[row][col].content =
       '{bold}' +
       ' ███ \n' +
       '█   █\n' +
@@ -121,3 +158,7 @@ class Game {
 }
 
 exports.Game = Game
+
+// TODO:
+// handle movement errors
+// implement grid resizing
