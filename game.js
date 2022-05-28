@@ -117,19 +117,25 @@ class Game {
   }
 
   moveUp() {
+    if (this.currRow - 1 == -1) {
+      this.currRow = 3
+    }
     this.setCurrentCell(this.currRow - 1, this.currCol)
   }
 
   moveDown() {
-    this.setCurrentCell(this.currRow + 1, this.currCol)
+    this.setCurrentCell((this.currRow + 1) % 3, this.currCol)
   }
 
   moveLeft() {
+    if (this.currCol - 1 == -1) {
+      this.currCol = 3
+    }
     this.setCurrentCell(this.currRow, this.currCol - 1)
   }
 
   moveRight() {
-    this.setCurrentCell(this.currRow, this.currCol + 1)
+    this.setCurrentCell(this.currRow, (this.currCol + 1) % 3)
   }
 
   drawX(row = this.currRow, col = this.currCol) {
@@ -160,5 +166,4 @@ class Game {
 exports.Game = Game
 
 // TODO:
-// handle movement errors
 // implement grid resizing
