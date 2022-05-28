@@ -1,14 +1,15 @@
 {
   "name": "tictactoe",
   "version": "1.0.0",
-  "description": "",
+  "description": "Play tic-tac-toe in the terminal, written in Node.js",
+  "author": "Luca Capecchi",
+  "license": "MIT",
+  "keywords": [
+    "tictactoe",
+    "terminal"
+  ],
   "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "scripts": {},
   "dependencies": {
     "blessed": "^0.1.81",
     "commander": "^9.2.0"
