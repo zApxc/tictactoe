@@ -54,8 +54,12 @@ game.grid.key(['d', 'l', 'right'], () => {
   game.moveRight()
 })
 
+let drawXNext = true
 game.grid.key('enter', () => {
-  game.drawX()
+  if (game.currCell.content == '') {
+    drawXNext ? game.drawX() : game.drawO()
+    drawXNext = !drawXNext
+  }
 })
 
 screen.append(game.grid)
