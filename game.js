@@ -102,6 +102,24 @@ class Game {
 
     this.setCurrentCell(1, 1)
 
+    // object that maps to the grid
+    this.gridMatrix = {
+      matrix: [
+        ['', '', ''],
+        ['', '', ''],
+        ['', '', ''],
+      ],
+      cellsLeft: 9,
+      setCell(row, col, isX) {
+        /*
+         * sets a matrix cell's content to X or O
+         * and decrease the number of cells left
+         */
+        isX ? (this.matrix[row][col] = 'X') : (this.matrix[row][col] = 'O')
+        this.cellsLeft -= 1
+      },
+    }
+
     screen.render()
   }
 
@@ -147,6 +165,7 @@ class Game {
       ' █ █ \n' +
       '█   █' +
       '{/bold}'
+    this.gridMatrix.setCell(row, col, false)
     this.screen.render()
   }
 
@@ -159,6 +178,7 @@ class Game {
       '█   █\n' +
       ' ███ ' +
       '{/bold}'
+    this.gridMatrix.setCell(row, col, false)
     this.screen.render()
   }
 }
