@@ -17,25 +17,6 @@ class Game {
       },
     })
 
-    const lines = [
-      blessed.line({
-        orientation: 'vertical',
-        left: '33%',
-      }),
-      blessed.line({
-        orientation: 'vertical',
-        left: '66%',
-      }),
-      blessed.line({
-        orientation: 'horizontal',
-        top: '33%',
-      }),
-      blessed.line({
-        orientation: 'horizontal',
-        top: '66%',
-      }),
-    ]
-
     const genericCell = {
       width: '33%',
       height: '33%',
@@ -89,6 +70,26 @@ class Game {
         }),
       ],
     ]
+
+    const lines = [
+      blessed.line({
+        orientation: 'vertical',
+        left: '33%',
+      }),
+      blessed.line({
+        orientation: 'vertical',
+        left: '66%',
+      }),
+      blessed.line({
+        orientation: 'horizontal',
+        top: '33%',
+      }),
+      blessed.line({
+        orientation: 'horizontal',
+        top: '66%',
+      }),
+    ]
+
     // insert every cell (blessed.box) to the grid
     this.cells.forEach((row) => {
       row.forEach((cell) => {
@@ -235,6 +236,3 @@ class Game {
 }
 
 exports.Game = Game
-
-// TODO:
-// implement grid resizing

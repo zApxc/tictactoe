@@ -56,9 +56,17 @@ game.grid.key(['d', 'l', 'right'], () => {
 
 let drawXNext = true
 game.grid.key('enter', () => {
-  if (game.currCell.content == '') {
-    drawXNext ? game.drawX() : game.drawO()
-    drawXNext = !drawXNext
+  if (!game.canDraw()) return
+  drawXNext ? game.drawX() : game.drawO()
+  drawXNext = !drawXNext
+
+  let winner = game.getWinner()
+  if (winner == 'X') {
+    console.log("X's won!")
+  } else if (winner == 'O') {
+    console.log("O's won!")
+  } else if (winner == 'T') {
+    console.log("It's a tie")
   }
 })
 
@@ -68,3 +76,6 @@ screen.append(commands)
 game.grid.focus()
 
 screen.render()
+
+// TODO:
+// display the win/tie better (box, text...)
