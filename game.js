@@ -90,7 +90,7 @@ class Game {
       }),
     ]
 
-    // insert every cell (blessed.box) to the grid
+    // insert each cell into the grid
     this.cells.forEach((row) => {
       row.forEach((cell) => {
         this.grid.append(cell)
@@ -101,28 +101,16 @@ class Game {
       this.grid.append(line)
     })
 
+    // matrix that corresponds to the game grid
+    this.matrix = [
+      ['', '', ''],
+      ['', '', ''],
+      ['', '', ''],
+    ]
+    // number of cells that haven't been drawn yet
+    this.cellsLeft = 9
+
     this.setCurrentCell(1, 1)
-
-    /**
-     * Object that maps the grid to a matrix
-     *
-     * @param {string[][]} gridMatrix The game grid as a matrix
-     * @param {number} cellsLeft The number of game cells left to draw
-     */
-
-    this.gridMatrix = {
-      matrix: [
-        ['', '', ''],
-        ['', '', ''],
-        ['', '', ''],
-      ],
-      cellsLeft: 9,
-      setCell(row, col, isX) {
-        isX ? (this.matrix[row][col] = 'X') : (this.matrix[row][col] = 'O')
-        // the cell has been drawn, decrement the number of cells left
-        this.cellsLeft -= 1
-      },
-    }
 
     screen.render()
   }
@@ -130,11 +118,13 @@ class Game {
   /**
    * Checks whether a cell can be drawn or not
    *
+   * @param {number} row - The row where the cell is, defaults to current row
+   * @param {number} col - The col where the cell is, defaults to current col
    * @returns {bool}
    */
 
   canDraw(row = this.currRow, col = this.currCol) {
-    return this.gridMatrix.matrix[row][col] == ''
+    return this.cells[row][col].content == ''
   }
 
   /**
@@ -144,8 +134,9 @@ class Game {
    */
 
   getWinner() {
-    const grid = this.gridMatrix
-    const mtx = grid.matrix
+    // map the cells to a matrix
+    const mtx = this.matrix
+
     // check for game winner row by row
     for (let row = 0; row < mtx.length; row++) {
       if (
@@ -172,7 +163,7 @@ class Game {
     if (mtx[0][2] == mtx[1][1] && mtx[1][1] == mtx[2][0] && mtx[0][2] != '')
       return mtx[0][2]
     // no game winner, return tie if there are no cells left, otherwise game not finished
-    return grid.cellsLeft <= 0 ? 'T' : 'N'
+    return this.cellsLeft <= 0 ? 'T' : 'N'
   }
 
   setCurrentCell(row, col) {
@@ -217,7 +208,8 @@ class Game {
       ' █ █ \n' +
       '█   █' +
       '{/bold}'
-    this.gridMatrix.setCell(row, col, true)
+    this.matrix[row][col] = 'X'
+    this.cellsLeft -= 1
     this.screen.render()
   }
 
@@ -230,9 +222,14 @@ class Game {
       '█   █\n' +
       ' ███ ' +
       '{/bold}'
-    this.gridMatrix.setCell(row, col, false)
+    this.matrix[row][col] = 'O'
+    this.cellsLeft -= 1
     this.screen.render()
   }
 }
 
 exports.Game = Game
+
+// TODO:
+// Detach screen from game?
+// Game extends blessed box
