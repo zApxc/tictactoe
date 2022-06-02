@@ -1,21 +1,9 @@
 const blessed = require('blessed')
 
-class Game {
-  constructor(screen) {
+class Game extends blessed.box {
+  constructor(options, screen) {
+    super(options)
     this.screen = screen
-    this.grid = blessed.box({
-      top: 'center',
-      left: 'center',
-      width: '300',
-      height: '570',
-      tags: true,
-      style: {
-        fg: 'white',
-        border: {
-          fg: 'white',
-        },
-      },
-    })
 
     const genericCell = {
       width: '33%',
@@ -93,12 +81,12 @@ class Game {
     // insert each cell into the grid
     this.cells.forEach((row) => {
       row.forEach((cell) => {
-        this.grid.append(cell)
+        this.append(cell)
       })
     })
     // draw every line after the cells
     lines.forEach((line) => {
-      this.grid.append(line)
+      this.append(line)
     })
 
     // matrix that corresponds to the game grid
@@ -134,7 +122,6 @@ class Game {
    */
 
   getWinner() {
-    // map the cells to a matrix
     const mtx = this.matrix
 
     // check for game winner row by row
@@ -253,4 +240,3 @@ exports.Game = Game
 
 // TODO:
 // Detach screen from game?
-// Game extends blessed box

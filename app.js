@@ -36,26 +36,41 @@ const commands = blessed.box({
   },
 })
 
-const game = new Game(screen)
+const game = new Game(
+  {
+    top: 'center',
+    left: 'center',
+    width: '300',
+    height: '570',
+    tags: true,
+    style: {
+      fg: 'white',
+      border: {
+        fg: 'white',
+      },
+    },
+  },
+  screen
+)
 
-game.grid.key(['w', 'k', 'up'], () => {
+game.key(['w', 'k', 'up'], () => {
   game.moveUp()
 })
 
-game.grid.key(['s', 'j', 'down'], () => {
+game.key(['s', 'j', 'down'], () => {
   game.moveDown()
 })
 
-game.grid.key(['a', 'h', 'left'], () => {
+game.key(['a', 'h', 'left'], () => {
   game.moveLeft()
 })
 
-game.grid.key(['d', 'l', 'right'], () => {
+game.key(['d', 'l', 'right'], () => {
   game.moveRight()
 })
 
 let drawXNext = true
-game.grid.key('enter', () => {
+game.key('enter', () => {
   if (!game.canDraw()) return
   drawXNext ? game.drawX() : game.drawO()
   drawXNext = !drawXNext
@@ -70,12 +85,12 @@ game.grid.key('enter', () => {
   }
 })
 
-screen.append(game.grid)
+screen.append(game)
 screen.append(commands)
 
-game.grid.focus()
+game.focus()
 
 screen.render()
 
 // TODO:
-// display the win/tie better (box, text...)
+// screen result as a box
