@@ -166,6 +166,13 @@ class Game {
     return this.cellsLeft <= 0 ? 'T' : 'N'
   }
 
+  /**
+   * Sets a cell and its position to current cell and position
+   *
+   * @param {number} row - The row where the cell is, defaults to current row
+   * @param {number} col - The col where the cell is, defaults to current col
+   */
+
   setCurrentCell(row, col) {
     if (this.currCell) {
       this.currCell.style.bg = ''
@@ -199,6 +206,13 @@ class Game {
     this.setCurrentCell(this.currRow, (this.currCol + 1) % 3)
   }
 
+  /**
+   * Draws an X in the specified cell
+   *
+   * @param {number} row - The row where the cell is, defaults to current row
+   * @param {number} col - The col where the cell is, defaults to current col
+   */
+
   drawX(row = this.currRow, col = this.currCol) {
     this.cells[row][col].content =
       '{bold}' +
@@ -212,6 +226,13 @@ class Game {
     this.cellsLeft -= 1
     this.screen.render()
   }
+
+  /**
+   * Draws an O in the specified cell
+   *
+   * @param {number} row - The row where the cell is, defaults to current row
+   * @param {number} col - The col where the cell is, defaults to current col
+   */
 
   drawO(row = this.currRow, col = this.currCol) {
     this.cells[row][col].content =
