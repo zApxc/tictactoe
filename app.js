@@ -55,22 +55,19 @@ const result = blessed.box({
   },
 })
 
-const game = new Game(
-  {
-    top: 'center',
-    left: 'center',
-    width: '300',
-    height: '570',
-    tags: true,
-    style: {
+const game = new Game({
+  top: 'center',
+  left: 'center',
+  width: '300',
+  height: '570',
+  tags: true,
+  style: {
+    fg: 'white',
+    border: {
       fg: 'white',
-      border: {
-        fg: 'white',
-      },
     },
   },
-  screen
-)
+})
 
 result.key('enter', () => {
   screen.remove(result)
@@ -81,18 +78,22 @@ result.key('enter', () => {
 
 game.key(['w', 'k', 'up'], () => {
   game.moveUp()
+  screen.render()
 })
 
 game.key(['s', 'j', 'down'], () => {
   game.moveDown()
+  screen.render()
 })
 
 game.key(['a', 'h', 'left'], () => {
   game.moveLeft()
+  screen.render()
 })
 
 game.key(['d', 'l', 'right'], () => {
   game.moveRight()
+  screen.render()
 })
 
 let drawXNext = true
@@ -119,8 +120,8 @@ game.key('enter', () => {
   screen.render()
 })
 
-screen.append(game)
 screen.append(commands)
+screen.append(game)
 
 game.focus()
 

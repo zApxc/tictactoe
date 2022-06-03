@@ -1,9 +1,8 @@
 const blessed = require('blessed')
 
 class Game extends blessed.box {
-  constructor(options, screen) {
+  constructor(options) {
     super(options)
-    this.screen = screen
 
     const genericCell = {
       width: '33%',
@@ -99,8 +98,6 @@ class Game extends blessed.box {
     this.cellsLeft = 9
 
     this.setCurrentCell(1, 1)
-
-    screen.render()
   }
 
   /**
@@ -118,7 +115,6 @@ class Game extends blessed.box {
     this.currCol = col
     this.currCell = this.cells[row][col]
     this.currCell.style.bg = 'cyan'
-    this.screen.render()
   }
 
   moveUp() {
@@ -173,7 +169,6 @@ class Game extends blessed.box {
       '{/bold}'
     this.matrix[row][col] = 'X'
     this.cellsLeft -= 1
-    this.screen.render()
   }
 
   /**
@@ -194,7 +189,6 @@ class Game extends blessed.box {
       '{/bold}'
     this.matrix[row][col] = 'O'
     this.cellsLeft -= 1
-    this.screen.render()
   }
 
   /**
@@ -242,11 +236,10 @@ class Game extends blessed.box {
       }
     }
     this.cellsLeft = 9
-    this.screen.render()
   }
 }
 
 exports.Game = Game
 
 // TODO:
-// Detach screen from game?
+// Add option for game cell bg/fg colors
