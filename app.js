@@ -36,6 +36,25 @@ const commands = blessed.box({
   },
 })
 
+const result = blessed.box({
+  top: 'center',
+  left: 'center',
+  width: '240',
+  height: '400',
+  align: 'center',
+  valign: 'middle',
+  tags: true,
+  border: {
+    type: 'line',
+  },
+  style: {
+    fg: 'white',
+    border: {
+      fg: 'white',
+    },
+  },
+})
+
 const game = new Game(
   {
     top: 'center',
@@ -52,6 +71,13 @@ const game = new Game(
   },
   screen
 )
+
+result.key('enter', () => {
+  screen.remove(result)
+  game.clear()
+  game.focus()
+  screen.render()
+})
 
 game.key(['w', 'k', 'up'], () => {
   game.moveUp()
@@ -75,14 +101,22 @@ game.key('enter', () => {
   drawXNext ? game.drawX() : game.drawO()
   drawXNext = !drawXNext
 
-  let winner = game.getWinner()
+  const winner = game.getWinner()
+  let resultText
   if (winner == 'X') {
-    console.log("X's won!")
+    resultText = '{red-fg}X WINS!'
   } else if (winner == 'O') {
-    console.log("O's won!")
+    resultText = '{green-fg}O WINS!'
   } else if (winner == 'T') {
-    console.log("It's a tie")
+    resultText = '{blue-fg}TIE!'
   }
+  if (winner != 'N') {
+    result.setContent(`{bold}${resultText}{/}\n\n\nPress ENTER to restart`)
+    screen.append(result)
+    result.focus()
+  }
+
+  screen.render()
 })
 
 screen.append(game)
@@ -91,6 +125,3 @@ screen.append(commands)
 game.focus()
 
 screen.render()
-
-// TODO:
-// screen result as a box
