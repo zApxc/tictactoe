@@ -5,11 +5,8 @@ const screen = blessed.screen({
   smartCSR: true,
 })
 
-screen.key(['escape', 'q', 'C-c'], (ch, key) => {
-  return process.exit(0)
-})
-
 const commands = blessed.box({
+  parent: screen,
   top: 'left',
   left: 'left',
   width: '200',
@@ -56,6 +53,7 @@ const result = blessed.box({
 })
 
 const game = new Game({
+  parent: screen,
   top: 'center',
   left: 'center',
   width: '300',
@@ -68,6 +66,10 @@ const game = new Game({
     },
     currCellBg: 'cyan',
   },
+})
+
+screen.key(['escape', 'q', 'C-c'], (ch, key) => {
+  return process.exit(0)
 })
 
 result.key('enter', () => {
@@ -105,17 +107,17 @@ game.key('enter', () => {
 
   const winner = game.getWinner()
   let resultText
-  if (winner == 'X') {
-    resultText = '{red-fg}X WINS!'
-    result.style.border.fg = 'red'
-  } else if (winner == 'O') {
-    resultText = '{green-fg}O WINS!'
-    result.style.border.fg = 'green'
-  } else if (winner == 'T') {
-    resultText = '{blue-fg}TIE!'
-    result.style.border.fg = 'blue'
-  }
   if (winner != 'N') {
+    if (winner == 'X') {
+      resultText = '{red-fg}X WINS!'
+      result.style.border.fg = 'red'
+    } else if (winner == 'O') {
+      resultText = '{green-fg}O WINS!'
+      result.style.border.fg = 'green'
+    } else if (winner == 'T') {
+      resultText = '{blue-fg}TIE!'
+      result.style.border.fg = 'blue'
+    }
     result.setContent(`{bold}${resultText}{/}\n\n\nPress ENTER to restart`)
     screen.append(result)
     result.focus()
@@ -123,9 +125,6 @@ game.key('enter', () => {
 
   screen.render()
 })
-
-screen.append(commands)
-screen.append(game)
 
 game.focus()
 

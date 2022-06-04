@@ -252,6 +252,3 @@ class Game extends blessed.box {
 }
 
 exports.Game = Game
-
-// TODO:
-// Add option for game cell bg/fg colors
