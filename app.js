@@ -66,6 +66,7 @@ const game = new Game({
     border: {
       fg: 'white',
     },
+    currCellBg: 'cyan',
   },
 })
 
@@ -106,10 +107,13 @@ game.key('enter', () => {
   let resultText
   if (winner == 'X') {
     resultText = '{red-fg}X WINS!'
+    result.style.border.fg = 'red'
   } else if (winner == 'O') {
     resultText = '{green-fg}O WINS!'
+    result.style.border.fg = 'green'
   } else if (winner == 'T') {
     resultText = '{blue-fg}TIE!'
+    result.style.border.fg = 'blue'
   }
   if (winner != 'N') {
     result.setContent(`{bold}${resultText}{/}\n\n\nPress ENTER to restart`)

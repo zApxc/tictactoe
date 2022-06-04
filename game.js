@@ -4,54 +4,64 @@ class Game extends blessed.box {
   constructor(options) {
     super(options)
 
+    // add various style properties to the game
+    this.style.cellFg = options.style.cellFg
+    this.style.cellBg = options.style.cellBg
+    this.style.currCellFg = options.style.currCellFg
+    this.style.currCellBg = options.style.currCellBg
+
     const genericCell = {
       width: '33%',
       height: '33%',
       align: 'center',
       valign: 'middle',
       tags: true,
+      style: {
+        fg: this.style.cellFg,
+        bg: this.style.cellBg,
+      },
     }
 
     this.cells = [
       [
-        blessed.box({ ...genericCell }),
+        blessed.box(structuredClone(genericCell)),
         blessed.box({
-          ...genericCell,
+          ...structuredClone(genericCell),
           left: 'center',
         }),
         blessed.box({
-          ...genericCell,
+          ...structuredClone(genericCell),
           left: '66%',
         }),
       ],
       [
         blessed.box({
-          ...genericCell,
+          ...structuredClone(genericCell),
           top: 'center',
         }),
         blessed.box({
-          ...genericCell,
+          ...structuredClone(genericCell),
           left: 'center',
           top: 'center',
         }),
         blessed.box({
-          ...genericCell,
+          ...structuredClone(genericCell),
           left: '66%',
           top: 'center',
         }),
       ],
       [
         blessed.box({
-          ...genericCell,
+          ...structuredClone(genericCell),
           top: '66%',
         }),
         blessed.box({
-          ...genericCell,
+          ...structuredClone(genericCell),
           left: 'center',
           top: '66%',
         }),
         blessed.box({
-          ...genericCell,
+          ...structuredClone(genericCell),
           left: '66%',
           top: '66%',
         }),
@@ -109,12 +119,14 @@ class Game extends blessed.box {
 
   setCurrentCell(row, col) {
     if (this.currCell) {
-      this.currCell.style.bg = ''
+      this.currCell.style.bg = this.style.cellBg
+      this.currCell.style.fg = this.style.cellFg
     }
     this.currRow = row
     this.currCol = col
     this.currCell = this.cells[row][col]
-    this.currCell.style.bg = 'cyan'
+    this.currCell.style.fg = this.style.currCellFg
+    this.currCell.style.bg = this.style.currCellBg
   }
 
   moveUp() {
