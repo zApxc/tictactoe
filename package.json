@@ -10,8 +10,10 @@
   ],
   "main": "app.js",
   "scripts": {},
+  "bin": {
+    "tictactoe": "./app.js"
+  },
   "dependencies": {
-    "blessed": "^0.1.81",
-    "commander": "^9.2.0"
+    "blessed": "^0.1.81"
   }
 }
